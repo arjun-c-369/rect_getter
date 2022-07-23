@@ -15,14 +15,18 @@ class RectGetter extends StatefulWidget {
   /// 持有某RectGetter对象的key时利用该方法获得其child的rect
   /// Use this static method to get child`s rectangle information when had a custom GlobalKey
   static Rect? getRectFromKey(GlobalKey<RectGetterState> globalKey) {
-    var object = globalKey.currentContext?.findRenderObject();
-    var translation = object?.getTransformTo(null).getTranslation();
-    var size = object?.semanticBounds.size;
+    try{
+      var object = globalKey.currentContext?.findRenderObject();
+      var translation = object?.getTransformTo(null).getTranslation();
+      var size = object?.semanticBounds.size;
 
-    if (translation != null && size != null) {
-      return Rect.fromLTWH(
-          translation.x, translation.y, size.width, size.height);
-    } else {
+      if (translation != null && size != null) {
+        return Rect.fromLTWH(
+            translation.x, translation.y, size.width, size.height);
+      } else {
+        return null;
+      }
+    }catch(e){
       return null;
     }
   }
